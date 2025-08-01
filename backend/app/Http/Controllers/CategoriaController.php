@@ -60,6 +60,12 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        //validación
+        $request->validate([
+            'nombre'=>'required',
+            'descripcion'=>'nullable'
+        ]);
+
         $categoria = Categoria::find($id);
         
         if(!$categoria){
@@ -70,13 +76,7 @@ class CategoriaController extends Controller
                 ],404
                 );
         }
-
-        //validación
-        $request->validate([
-            'nombre'=>'required',
-            'descripcion'=>'nullable'
-        ]);
-        $categoria ->update($request->all());
+        $categoria->update($request->all());
         
         return response()->json([
             'mensaje'=>'Categoria actualizada exitosamente',
